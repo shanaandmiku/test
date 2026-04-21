@@ -1,0 +1,116 @@
+{
+  "chartLayout": {
+    "baselineColor": "#f8fafc",
+    "baselineHeight": 3,
+    "barGap": 10,
+    "barTrackColor": "#1f2430",
+    "categoryGap": 72,
+    "categoryLabelYPercent": 0.755,
+    "chartHeightPercent": 0.47,
+    "chartWidthPercent": 0.79,
+    "dividerColor": "#d1d5db",
+    "dividerHeight": 2,
+    "gridColor": "#151923",
+    "gridCount": 5,
+    "gridHeight": 2,
+    "labelStyle": {
+      "fill": "#d1d5db",
+      "fontFamily": "Space Grotesk",
+      "fontSize": 18,
+      "fontWeight": "700"
+    },
+    "secondaryTextOffset": 10,
+    "secondaryValueStyle": {
+      "fill": "#dbeafe",
+      "fontFamily": "IBM Plex Mono",
+      "fontSize": 16,
+      "fontWeight": "500"
+    },
+    "topValueOffset": 10,
+    "topValueStyle": {
+      "fill": "#f8fafc",
+      "fontFamily": "IBM Plex Mono",
+      "fontSize": 16,
+      "fontWeight": "700"
+    },
+    "xPercent": 0.095,
+    "yPercent": 0.2
+  },
+  "id": "grouped-column-template",
+  "legendLayout": {
+    "markerHeight": 18,
+    "markerWidth": 18,
+    "startXPercent": 0.705,
+    "textGap": 10,
+    "xGap": 28,
+    "yPercent": 0.105
+  },
+  "legendTextStyle": {
+    "fill": "#cbd5e1",
+    "fontFamily": "Space Grotesk",
+    "fontSize": 16,
+    "fontWeight": "500"
+  },
+  "panel": {
+    "alpha": 0.96,
+    "fill": "#0d1118",
+    "heightPercent": 0.62,
+    "widthPercent": 0.86,
+    "xPercent": 0.07,
+    "yPercent": 0.14
+  },
+  "textLines": [
+    {
+      "anchorX": 0,
+      "anchorY": 0,
+      "style": {
+        "fill": "#f8fafc",
+        "fontFamily": "Space Grotesk",
+        "fontSize": 40,
+        "fontWeight": "700"
+      },
+      "textKey": "titleText",
+      "xPercent": 0.07,
+      "yPercent": 0.06
+    },
+    {
+      "anchorX": 0,
+      "anchorY": 0,
+      "style": {
+        "fill": "#71717a",
+        "fontFamily": "Space Grotesk",
+        "fontSize": 18,
+        "fontWeight": "500"
+      },
+      "textKey": "subtitleText",
+      "xPercent": 0.07,
+      "yPercent": 0.12
+    },
+    {
+      "anchorX": 0.5,
+      "anchorY": 0,
+      "style": {
+        "fill": "#f8fafc",
+        "fontFamily": "Space Grotesk",
+        "fontSize": 24,
+        "fontWeight": "700"
+      },
+      "textKey": "footerText",
+      "xPercent": 0.5,
+      "yPercent": 0.83
+    },
+    {
+      "anchorX": 1,
+      "anchorY": 0,
+      "style": {
+        "fill": "#f8fafc",
+        "fontFamily": "Space Grotesk",
+        "fontSize": 22,
+        "fontWeight": "700"
+      },
+      "textKey": "brandText",
+      "xPercent": 0.93,
+      "yPercent": 0.05
+    }
+  ]
+}

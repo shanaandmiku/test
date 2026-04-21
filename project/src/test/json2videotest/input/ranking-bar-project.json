@@ -1,0 +1,51 @@
+{
+  "configId": "default-runtime-config",
+  "dataSource": {
+    "config": {
+      "badgeText": "蓝标",
+      "leftMetricLabel": "1% 低帧",
+      "rightMetricLabel": "平均帧",
+      "subtitleText": "1920 × 1200 低画质",
+      "titleText": "《赛博朋克2077》 (fps)"
+    },
+    "items": [
+      {
+        "averageValue": 51,
+        "label": "M5",
+        "lowValue": 41,
+        "subLabel": "MacBook Pro 14\""
+      },
+      {
+        "averageValue": 36,
+        "label": "M5",
+        "lowValue": 30,
+        "subLabel": "MacBook Air 13\""
+      },
+      {
+        "averageValue": 27,
+        "label": "M4",
+        "lowValue": 22,
+        "subLabel": "MacBook Air 13\""
+      },
+      {
+        "averageValue": 25,
+        "label": "M3",
+        "lowValue": 20,
+        "subLabel": "MacBook Air 13\""
+      },
+      {
+        "averageValue": 22,
+        "label": "M2",
+        "lowValue": 18,
+        "subLabel": "MacBook Air 13\""
+      },
+      {
+        "averageValue": 17,
+        "label": "M1",
+        "lowValue": 13,
+        "subLabel": "MacBook Air 13\""
+      }
+    ]
+  },
+  "templateId": "ranking-bar-template"
+}

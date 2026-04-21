@@ -1,0 +1,30 @@
+{
+  "id": "single-text-template",
+  "repeatTextGroups": [
+    {
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "direction": "vertical",
+      "gapXPercent": 0.085,
+      "groupId": "middle-vertical-texts",
+      "startXPercent": 0.3725,
+      "yPercent": 0.5
+    }
+  ],
+  "textSlots": [
+    {
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "slotId": "top-line",
+      "xPercent": 0.5,
+      "yPercent": 0.42
+    },
+    {
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "slotId": "bottom-line",
+      "xPercent": 0.5,
+      "yPercent": 0.62
+    }
+  ]
+}
