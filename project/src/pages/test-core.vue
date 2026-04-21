@@ -45,17 +45,6 @@ onBeforeUnmount(() => {
   background: #02040a;
 }
 
-.test-toolbar {
-  padding: 12px 16px;
-  color: #e5e7eb;
-}
-
-.toolbar-label {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-}
-
 .test-canvas-host {
   width: 100%;
   aspect-ratio: 16 / 9;
