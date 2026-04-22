@@ -4,6 +4,7 @@ import { getTemplateById } from '../template'
 import type { AnyTemplateDefinition } from '../template/template-definition.ts'
 import type { Json2VideoRuntimeConfig } from '../type/type-a-b.ts'
 import type { ProjectSource } from '../type/type-a-z.ts'
+import { readFile } from '../utils/file-util.ts'
 
 // 数据层最终输出
 export type DataLayerResult = {
@@ -47,13 +48,25 @@ export const normalizeData = (projectSourceInput: unknown): DataLayerResult => {
 
 export interface IOrigInfo {
   runtimeConfig: Json2VideoRuntimeConfig
-  project: {
-    projectId: string
-    templateId: string
-  }
+  projectId: string
 }
-export const normalizeData2 = (origInfo: IOrigInfo): DataLayerResult => {
-  return {}
+export interface IDataLayerResult {}
+
+export const normalizeData2 = async (
+  origInfo: IOrigInfo,
+  workspaceRef: FileSystemDirectoryHandle,
+): Promise<DataLayerResult> => {
+  const { runtimeConfig, projectId } = origInfo
+  //读取项目文件
+  const fileText = await readFile(
+    workspaceRef,
+    ['project'],
+    `${projectId}.json`,
+  )
+  console.log('file', fileText)
+  return {
+    fileText: fileText,
+  }
   const projectSource = projectSourceSchema.parse(origInfo) as ProjectSource
 
   return {

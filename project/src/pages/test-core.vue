@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { createJson2VideoRuntime } from '../core/z-core.ts'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { RenderSession } from '../type/type-d-z.ts'
 import {
-  getAndSelectWorkSpace,
   getWorkSpace,
   requestPermission,
   selectWorkSpace,
   verifyPermission,
 } from '../utils/file-util.ts'
 import { runtimeConfig } from '../config/runtime-config.ts'
-import JSONEditor from 'jsoneditor'
-import { normalizeData, normalizeData2 } from '../core/a-data-layer.ts'
+import JSONEditor, { JSONEditorMode } from 'jsoneditor'
+import {
+  type IDataLayerResult,
+  type IOrigInfo,
+  normalizeData2,
+} from '../core/a-data-layer.ts'
 import { initWorkSpace } from '../core/utils/workspace.ts'
 
 // Pixi 挂载节点
@@ -54,12 +56,15 @@ const permissionAccess = async (): Promise<void> => {
 }
 
 const initFlag = ref(false)
+const initEdFlag = ref(false)
 watch(
   () => [workspaceRef.value, workspacePermission.value],
   () => {
     if (workspaceRef.value && workspacePermission.value && !initFlag.value) {
       initFlag.value = true
-      initWorkSpace(workspaceRef.value)
+      initWorkSpace(workspaceRef.value).then(() => {
+        initEdFlag.value = true
+      })
     }
   },
 )
@@ -74,6 +79,9 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   runtime?.destroy()
   runtime = null
+  for (let oldEditorElement of oldEditor) {
+    oldEditorElement?.destroy?.()
+  }
 })
 
 const origInfoRef = ref<HTMLDivElement | null>(null)
@@ -81,30 +89,73 @@ const normalizedRef = ref<HTMLDivElement | null>(null)
 // const origInfoRef = ref<HTMLDivElement | null>(null)
 // const origInfoRef = ref<HTMLDivElement | null>(null)
 
-const origInfo = computed(() => {
+const origInfo = ref<IOrigInfo | null>(null)
+const getOrigInfo = (): IOrigInfo | null => {
   if (!workspaceRef.value || !workspacePermission.value) {
     return null
   }
   return {
     runtimeConfig: runtimeConfig,
+    projectId: 'project1',
   }
-})
-const normalized = computed(() => {
-  if (!origInfo.value) {
+}
+
+const normalized = ref<IDataLayerResult | null>(null)
+const getNormalized = async (): Promise<IDataLayerResult | null> => {
+  if (!origInfo.value || !workspaceRef.value) {
     return null
   }
-  return normalizeData2(origInfo.value)
-})
+  return normalizeData2(
+    {
+      ...origInfo.value,
+    },
+    workspaceRef.value,
+  )
+}
+
+watch(
+  () => [initEdFlag.value],
+  async () => {
+    origInfo.value = await getOrigInfo()
+    normalized.value = await getNormalized()
+  },
+)
+
+const oldEditor: JSONEditor[] = []
 watch(
   () => [origInfo.value, normalized.value],
   () => {
-    const options = {
+    for (let oldEditorElement of oldEditor) {
+      oldEditorElement?.destroy?.()
+    }
+    oldEditor.length = 0
+
+    if (!origInfo.value) {
+      return
+    }
+
+    const options: {
+      mode: JSONEditorMode
+      modes: JSONEditorMode[]
+      sortObjectKeys: boolean
+    } = {
       mode: 'view',
       modes: ['tree', 'tree'],
       sortObjectKeys: true,
     }
-    new JSONEditor(origInfoRef.value, options, origInfo.value).expandAll()
-    new JSONEditor(normalizedRef.value, options, normalized.value).expandAll()
+    const origInfoEditor = new JSONEditor(
+      origInfoRef.value as HTMLElement,
+      options,
+      origInfo.value,
+    )
+    origInfoEditor.expandAll()
+    const normalizedEditor = new JSONEditor(
+      normalizedRef.value as HTMLElement,
+      options,
+      normalized.value,
+    )
+    normalizedEditor.expandAll()
+    oldEditor.push(origInfoEditor, normalizedEditor)
   },
 )
 </script>
@@ -127,7 +178,9 @@ watch(
       <div ref="origInfoRef" style="flex: 1"></div>
     </div>
     <div ref="normalizedRef" class="test-canvas-host" />
-    <div class="test-canvas-host" />
+    <div class="test-canvas-host">
+      {{ normalized }}
+    </div>
     <div ref="hostRef" class="test-canvas-host" />
   </section>
 </template>

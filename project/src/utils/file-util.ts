@@ -68,3 +68,17 @@ export async function requestPermission(
   // 用户未授权，因此返回false。
   return false
 }
+
+export async function readFile(
+  rootDirHandler: FileSystemDirectoryHandle,
+  dirPath: string[],
+  fileName: string,
+): Promise<string> {
+  let lastDirHandler = rootDirHandler
+  for (const path of dirPath) {
+    lastDirHandler = await lastDirHandler.getDirectoryHandle(path)
+  }
+  const projectFile = await lastDirHandler.getFileHandle(fileName)
+  const file = await projectFile.getFile()
+  return await file.text()
+}
