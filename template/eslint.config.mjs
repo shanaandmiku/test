@@ -10,7 +10,7 @@ export default defineConfig(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,tsx}'],
+    files: ['src/**/*.{js,mjs,cjs,jsx,ts,mts,tsx}'],
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,
@@ -27,7 +27,7 @@ export default defineConfig(
   },
   eslintConfigPrettier,
   {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,tsx}'],
+    files: ['src/**/*.{js,mjs,cjs,jsx,ts,mts,tsx}'],
     rules: {
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'never'],
