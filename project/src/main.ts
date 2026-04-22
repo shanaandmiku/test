@@ -8,6 +8,15 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './app.vue'
 
+//浏览器功能校验
+if (
+  !('showDirectoryPicker' in window) ||
+  typeof window.showDirectoryPicker !== 'function'
+) {
+  alert('浏览器版本不支持')
+  throw new Error('浏览器版本不支持 showDirectoryPicker')
+}
+
 const app = createApp(App)
 
 app.use(createPinia())

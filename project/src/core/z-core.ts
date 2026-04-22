@@ -4,9 +4,7 @@ import { buildMovieIr } from './c-scene-ir-layer.ts'
 import { renderMovieIr } from './d-render-backend-layer.ts'
 import type { RenderBackendConfig, RenderSession } from '../type/type-d-z.ts'
 
-export type Json2VideoTestRuntime = RenderSession
-
-export type CreateJson2VideoTestRuntimeOptions = {
+export type CreateJson2VideoRuntimeOptions = {
   backendConfig?: RenderBackendConfig
   project: unknown
 }
@@ -14,8 +12,10 @@ export type CreateJson2VideoTestRuntimeOptions = {
 // 创建最小实验运行时，并挂载到页面宿主节点
 export const createJson2VideoRuntime = async (
   hostElement: HTMLDivElement,
-  options: CreateJson2VideoTestRuntimeOptions,
-): Promise<Json2VideoTestRuntime> => {
+  options: CreateJson2VideoRuntimeOptions,
+): Promise<RenderSession> => {
+  //1.聚合数据
+
   const normalized = normalizeData(options.project)
   const compiledScene = compileTemplate({
     config: normalized.config,
