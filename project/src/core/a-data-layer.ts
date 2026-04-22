@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { testRuntimeConfig } from '../config/runtime-config.ts'
+import { runtimeConfig } from '../config/runtime-config.ts'
 import { getTemplateById } from '../template'
 import type { AnyTemplateDefinition } from '../template/template-definition.ts'
 import type { Json2VideoRuntimeConfig } from '../type/type-a-b.ts'
@@ -19,7 +19,7 @@ const projectSourceSchema = z.object({
 })
 
 const runtimeConfigMap: Record<string, Json2VideoRuntimeConfig> = {
-  'default-runtime-config': testRuntimeConfig,
+  'default-runtime-config': runtimeConfig,
 }
 
 const getRuntimeConfigById = (configId: string): Json2VideoRuntimeConfig => {
@@ -37,6 +37,24 @@ export const normalizeData = (projectSourceInput: unknown): DataLayerResult => {
   const projectSource = projectSourceSchema.parse(
     projectSourceInput,
   ) as ProjectSource
+
+  return {
+    config: getRuntimeConfigById(projectSource.configId),
+    dataSource: projectSource.dataSource,
+    template: getTemplateById(projectSource.templateId),
+  }
+}
+
+export interface IOrigInfo {
+  runtimeConfig: Json2VideoRuntimeConfig
+  project: {
+    projectId: string
+    templateId: string
+  }
+}
+export const normalizeData2 = (origInfo: IOrigInfo): DataLayerResult => {
+  return {}
+  const projectSource = projectSourceSchema.parse(origInfo) as ProjectSource
 
   return {
     config: getRuntimeConfigById(projectSource.configId),

@@ -1,29 +1,38 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+    <!-- when using the mode "code", it's important to specify charset utf-8 -->
+    <meta charset="utf-8">
+
+    <script src="
+https://cdn.jsdelivr.net/npm/jsoneditor@10.4.3/dist/jsoneditor.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/jsoneditor@10.4.3/dist/jsoneditor.min.css
+" rel="stylesheet">
 </head>
 <body>
-<div  class="preview-stage-shell" style="width: 200px; height: 100px;border: red 1px solid">
-    <div class="preview-stage" style="width: 400px; height: 100px;border: blue 1px solid;transform: scale(0.5, 0.5) translate(-0px, -0px);">
-    </div>
-</div>
-<div  class="preview-stage-shell" style="width: 1404px; height: 789.75px;border: red 1px solid">
-    <div class="preview-stage" style="width: 1920px; height: 1080px;border: blue 1px solid;transform: scale(0.1, 0.1) translate(-0px, -0px);">
-    </div>
-    <div class="preview-stage" style="width: 1920px; height: 20px;border: blue 1px solid;transform: scale(0.01, 1) translate(-500px, -0px);">
-    </div>
-    <div class="preview-stage" style="width: 960px; height: 2px;border: blue 1px solid;">
-    </div>
-</div>
-400*0.5 - (400-200)*0.5
-1920*0.5 - (1920-1404)*0.73125
+<div id="jsoneditor" style="width: 400px; height: 400px;"></div>
+
+<script>
+    // create the editor
+    const container = document.getElementById("jsoneditor")
+    const options = {}
+    const editor = new JSONEditor(container, options)
+
+    // set json
+    const initialJson = {
+        "Array": [1, 2, 3],
+        "Boolean": true,
+        "Null": null,
+        "Number": 123,
+        "Object": {"a": "b", "c": "d"},
+        "String": "Hello World"
+    }
+    editor.set(initialJson)
+
+    // get json
+    const updatedJson = editor.get()
+</script>
 </body>
 </html>

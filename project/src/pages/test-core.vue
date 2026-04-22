@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { createJson2VideoRuntime } from '../core/z-core.ts'
 import type { RenderSession } from '../type/type-d-z.ts'
 import {
@@ -8,7 +8,11 @@ import {
   requestPermission,
   selectWorkSpace,
   verifyPermission,
-} from '../util/file-util.ts'
+} from '../utils/file-util.ts'
+import { runtimeConfig } from '../config/runtime-config.ts'
+import JSONEditor from 'jsoneditor'
+import { normalizeData, normalizeData2 } from '../core/a-data-layer.ts'
+import { initWorkSpace } from '../core/utils/workspace.ts'
 
 // Pixi 挂载节点
 const hostRef = ref<HTMLDivElement | null>(null)
@@ -49,6 +53,17 @@ const permissionAccess = async (): Promise<void> => {
   workspacePermission.value = await requestPermission(workspaceRef.value)
 }
 
+const initFlag = ref(false)
+watch(
+  () => [workspaceRef.value, workspacePermission.value],
+  () => {
+    if (workspaceRef.value && workspacePermission.value && !initFlag.value) {
+      initFlag.value = true
+      initWorkSpace(workspaceRef.value)
+    }
+  },
+)
+
 onMounted(async () => {
   workspaceRef.value = await getWorkSpace()
   if (workspaceRef.value && (await verifyPermission(workspaceRef.value))) {
@@ -61,24 +76,57 @@ onBeforeUnmount(() => {
   runtime = null
 })
 
-const
+const origInfoRef = ref<HTMLDivElement | null>(null)
+const normalizedRef = ref<HTMLDivElement | null>(null)
+// const origInfoRef = ref<HTMLDivElement | null>(null)
+// const origInfoRef = ref<HTMLDivElement | null>(null)
+
+const origInfo = computed(() => {
+  if (!workspaceRef.value || !workspacePermission.value) {
+    return null
+  }
+  return {
+    runtimeConfig: runtimeConfig,
+  }
+})
+const normalized = computed(() => {
+  if (!origInfo.value) {
+    return null
+  }
+  return normalizeData2(origInfo.value)
+})
+watch(
+  () => [origInfo.value, normalized.value],
+  () => {
+    const options = {
+      mode: 'view',
+      modes: ['tree', 'tree'],
+      sortObjectKeys: true,
+    }
+    new JSONEditor(origInfoRef.value, options, origInfo.value).expandAll()
+    new JSONEditor(normalizedRef.value, options, normalized.value).expandAll()
+  },
+)
 </script>
 
 <template>
   <section class="test-page">
-    <div class="test-canvas-host">
-      当前工作目录：{{ workspaceRef?.name }}
-      <button v-if="!workspaceRef" @click="selectWorkSpaceHandler">
-        选择工作目录
-      </button>
-      <button v-if="workspaceRef" @click="changeWorkSpaceHandler">
-        切换工作目录
-      </button>
-      <button v-if="!workspacePermission" @click="permissionAccess">
-        授权访问
-      </button>
+    <div class="test-canvas-host" style="display: flex; flex-direction: column">
+      <div style="flex: 0">
+        当前工作目录：{{ workspaceRef?.name }}
+        <button v-if="!workspaceRef" @click="selectWorkSpaceHandler">
+          选择工作目录
+        </button>
+        <button v-if="workspaceRef" @click="changeWorkSpaceHandler">
+          切换工作目录
+        </button>
+        <button v-if="!workspacePermission" @click="permissionAccess">
+          授权访问
+        </button>
+      </div>
+      <div ref="origInfoRef" style="flex: 1"></div>
     </div>
-    <div class="test-canvas-host" />
+    <div ref="normalizedRef" class="test-canvas-host" />
     <div class="test-canvas-host" />
     <div ref="hostRef" class="test-canvas-host" />
   </section>

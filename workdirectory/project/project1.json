@@ -1,0 +1,6 @@
+{
+  "$schema": "./test.json",
+  "id": 0,
+  "name": "active",
+  "status": "active"
+}
