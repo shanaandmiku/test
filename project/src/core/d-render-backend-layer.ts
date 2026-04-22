@@ -1,6 +1,6 @@
 import { Application, Graphics, Text } from 'pixi.js'
-import type { MovieIr, RectLayerIr, TextLayerIr } from './type/type-c-d.ts'
-import type { RenderBackendConfig, RenderSession } from './type/type-d-z.ts'
+import type { MovieIr, RectLayerIr, TextLayerIr } from '../type/type-c-d.ts'
+import type { RenderBackendConfig, RenderSession } from '../type/type-d-z.ts'
 
 export type RenderMovieIrInput = {
   backendConfig?: RenderBackendConfig
@@ -50,10 +50,7 @@ const renderRectLayer = (app: Application, layer: RectLayerIr): void => {
 }
 
 // 根据影片 IR 刷新 Pixi 舞台内容
-const drawMovieIr = (
-  app: Application,
-  movieIr: MovieIr,
-): void => {
+const drawMovieIr = (app: Application, movieIr: MovieIr): void => {
   const firstScene = movieIr.scenes[0]
 
   if (!firstScene) {

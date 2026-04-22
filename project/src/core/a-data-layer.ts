@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import { testRuntimeConfig } from './config/runtime-config.ts'
-import { getTemplateById } from './template'
-import type { AnyTemplateDefinition } from './template/template-definition.ts'
-import type { Json2VideoRuntimeConfig } from './type/type-a-b.ts'
-import type { ProjectSource } from './type/type-a-z.ts'
+import { testRuntimeConfig } from '../config/runtime-config.ts'
+import { getTemplateById } from '../template'
+import type { AnyTemplateDefinition } from '../template/template-definition.ts'
+import type { Json2VideoRuntimeConfig } from '../type/type-a-b.ts'
+import type { ProjectSource } from '../type/type-a-z.ts'
 
 // 数据层最终输出
 export type DataLayerResult = {
@@ -33,10 +33,10 @@ const getRuntimeConfigById = (configId: string): Json2VideoRuntimeConfig => {
 }
 
 // 根据项目输入解析运行时所需的数据、模板和配置
-export const normalizeData = (
-  projectSourceInput: unknown,
-): DataLayerResult => {
-  const projectSource = projectSourceSchema.parse(projectSourceInput) as ProjectSource
+export const normalizeData = (projectSourceInput: unknown): DataLayerResult => {
+  const projectSource = projectSourceSchema.parse(
+    projectSourceInput,
+  ) as ProjectSource
 
   return {
     config: getRuntimeConfigById(projectSource.configId),

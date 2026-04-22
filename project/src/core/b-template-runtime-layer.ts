@@ -1,6 +1,6 @@
-import type { AnyTemplateDefinition } from './template/template-definition.ts'
-import type { Json2VideoRuntimeConfig } from './type/type-a-b.ts'
-import type { CompiledScene } from './type/type-b-c.ts'
+import type { AnyTemplateDefinition } from '../template/template-definition.ts'
+import type { Json2VideoRuntimeConfig } from '../type/type-a-b.ts'
+import type { CompiledScene } from '../type/type-b-c.ts'
 
 export type CompileTemplateInput = {
   config: Json2VideoRuntimeConfig

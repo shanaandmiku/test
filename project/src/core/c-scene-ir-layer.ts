@@ -1,10 +1,10 @@
+import type { MovieIr, RectLayerIr, TextLayerIr } from '../type/type-c-d.ts'
 import type {
   CompiledNode,
   CompiledRectNode,
   CompiledScene,
   CompiledTextNode,
-} from './type/type-b-c.ts'
-import type { MovieIr, RectLayerIr, TextLayerIr } from './type/type-c-d.ts'
+} from '../type/type-b-c.ts'
 
 const createTextLayerIr = (node: CompiledTextNode): TextLayerIr => {
   return {
