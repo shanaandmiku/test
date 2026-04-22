@@ -42,7 +42,7 @@ export default defineConfig({
     rolldownOptions: {
       // 确保外部化处理那些
       // 你不想打包进库的依赖
-      external: [],
+      external: ['@chartclip/shared'],
       output: {
         cleanDir: true,
         dir: resolve(import.meta.dirname, '../workdirectory/template'),

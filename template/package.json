@@ -4,6 +4,9 @@
   "scripts": {
     "build": "vite build --watch"
   },
+  "dependencies": {
+    "@chartclip/shared": "file:../shared"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.12.0",

@@ -1,0 +1,6 @@
+//#region src/base/testtemplate2/index.ts
+var plugin = { name: "base-testtemplate2" };
+//#endregion
+export { plugin as default };
+
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYmFzZS10ZXN0dGVtcGxhdGUyLmpzIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi4uLy4uL3RlbXBsYXRlL3NyYy9iYXNlL3Rlc3R0ZW1wbGF0ZTIvaW5kZXgudHMiXSwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgcGx1Z2luID0ge1xuICBuYW1lOiAnYmFzZS10ZXN0dGVtcGxhdGUyJyxcbn1cblxuZXhwb3J0IGRlZmF1bHQgcGx1Z2luXG4iXSwibWFwcGluZ3MiOiI7QUFBQSxJQUFNLFNBQVMsRUFDYixNQUFNLHNCQUNQIn0=

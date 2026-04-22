@@ -1,0 +1,7 @@
+import { createTemplatePluginId } from "@chartclip/shared";
+//#region src/base/testtemplate1/index.ts
+var plugin = { name: createTemplatePluginId("base", "testtemplate1") };
+//#endregion
+export { plugin as default };
+
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYmFzZS10ZXN0dGVtcGxhdGUxLmpzIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi4uLy4uL3RlbXBsYXRlL3NyYy9iYXNlL3Rlc3R0ZW1wbGF0ZTEvaW5kZXgudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtcbiAgY3JlYXRlVGVtcGxhdGVQbHVnaW5JZCxcbiAgdHlwZSBUZW1wbGF0ZVBsdWdpbkRlZmluaXRpb24sXG59IGZyb20gJ0BjaGFydGNsaXAvc2hhcmVkJ1xuXG5jb25zdCBwbHVnaW46IFRlbXBsYXRlUGx1Z2luRGVmaW5pdGlvbiA9IHtcbiAgbmFtZTogY3JlYXRlVGVtcGxhdGVQbHVnaW5JZCgnYmFzZScsICd0ZXN0dGVtcGxhdGUxJyksXG59XG5cbmV4cG9ydCBkZWZhdWx0IHBsdWdpblxuIl0sIm1hcHBpbmdzIjoiOztBQUtBLElBQU0sU0FBbUMsRUFDdkMsTUFBTSx1QkFBdUIsUUFBUSxnQkFBZ0IsRUFDdEQifQ==
