@@ -1,44 +1,34 @@
-import js from "@eslint/js";
-import globals from "globals";
-import pluginVue from "eslint-plugin-vue";
-import tseslint from "typescript-eslint";
-import vueParser from "vue-eslint-parser";
-import eslintConfigPrettier from "eslint-config-prettier/flat";
-export default [
+import js from "@eslint/js"
+import { defineConfig } from "eslint/config"
+import eslintConfigPrettier from "eslint-config-prettier/flat"
+import pluginVue from "eslint-plugin-vue"
+import globals from "globals"
+import tseslint from "typescript-eslint"
+
+export default defineConfig(
   {
     ignores: ["dist", "node_modules", ".npm-cache"],
-  },
-  {
-    files: ["**/*.{js,mjs,cjs,ts,mts,jsx,tsx,vue}"],
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs["flat/recommended"],
   {
-    files: ["**/*.{ts,mts,tsx}"],
-    rules: {
-      "@typescript-eslint/no-explicit-any": "error",
-    },
-  },
-  {
-    files: ["**/*.vue"],
+    files: ["src/**/*.{js,mjs,cjs,jsx,ts,mts,tsx,vue}"],
     languageOptions: {
-      parser: vueParser,
+      globals: globals.browser,
       parserOptions: {
         parser: tseslint.parser,
-        sourceType: "module",
       },
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
-      "vue/multi-word-component-names": "off",
     },
   },
   eslintConfigPrettier,
-];
+  {
+    files: ["src/**/*.{js,mjs,cjs,jsx,ts,mts,tsx,vue}"],
+    rules: {
+      semi: ["error", "never"],
+    },
+  },
+)

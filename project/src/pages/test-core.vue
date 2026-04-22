@@ -1,39 +1,42 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
-import groupedColumnProject from "../core/input/grouped-column-project.json";
+import { onBeforeUnmount, onMounted, ref } from "vue"
+import groupedColumnProject from "../core/input/grouped-column-project.json"
 import {
-  createJson2VideoTestRuntime,
+  createJson2VideoRuntime,
   type Json2VideoTestRuntime,
-} from "../core/z-core.ts";
+} from "../core/z-core.ts"
 
 // Pixi 挂载节点
-const hostRef = ref<HTMLDivElement | null>(null);
+const hostRef = ref<HTMLDivElement | null>(null)
 
-let runtime: Json2VideoTestRuntime | null = null;
+let runtime: Json2VideoTestRuntime | null = null
 
 const mountRuntime = async (): Promise<void> => {
   if (!hostRef.value) {
-    return;
+    return
   }
 
-  runtime?.destroy();
-  runtime = await createJson2VideoTestRuntime(hostRef.value, {
+  runtime?.destroy()
+  runtime = await createJson2VideoRuntime(hostRef.value, {
     project: groupedColumnProject,
-  });
-};
+  })
+}
 
 onMounted(async () => {
-  await mountRuntime();
-});
+  await mountRuntime()
+})
 
 onBeforeUnmount(() => {
-  runtime?.destroy();
-  runtime = null;
-});
+  runtime?.destroy()
+  runtime = null
+})
 </script>
 
 <template>
   <section class="test-page">
+    <div class="test-canvas-host" />
+    <div class="test-canvas-host" />
+    <div class="test-canvas-host" />
     <div ref="hostRef" class="test-canvas-host" />
   </section>
 </template>
@@ -41,15 +44,16 @@ onBeforeUnmount(() => {
 <style scoped>
 .test-page {
   width: 100%;
-  min-height: 100svh;
+  height: 100vh;
   background: #02040a;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .test-canvas-host {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 0;
-  border: 1px solid #1f2937;
+  width: 50%;
+  height: 50%;
+  border: 1px solid red;
 }
 
 .test-canvas-host :deep(canvas) {
