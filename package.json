@@ -1,0 +1,5 @@
+{
+  "name": "chartclip2",
+  "private": true,
+  "workspaces": ["project", "template", "shared"]
+}
