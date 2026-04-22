@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue"
-import groupedColumnProject from "../core/input/grouped-column-project.json"
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import groupedColumnProject from '../core/input/grouped-column-project.json'
 import {
   createJson2VideoRuntime,
   type Json2VideoTestRuntime,
-} from "../core/z-core.ts"
+} from '../core/z-core.ts'
 
 // Pixi 挂载节点
 const hostRef = ref<HTMLDivElement | null>(null)

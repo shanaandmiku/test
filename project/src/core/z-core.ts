@@ -1,8 +1,8 @@
-import { normalizeData } from "./a-data-layer.ts"
-import { compileTemplate } from "./b-template-runtime-layer.ts"
-import { buildMovieIr } from "./c-scene-ir-layer.ts"
-import { renderMovieIr } from "./d-render-backend-layer.ts"
-import type { RenderBackendConfig, RenderSession } from "./type/type-d-z.ts"
+import { normalizeData } from './a-data-layer.ts'
+import { compileTemplate } from './b-template-runtime-layer.ts'
+import { buildMovieIr } from './c-scene-ir-layer.ts'
+import { renderMovieIr } from './d-render-backend-layer.ts'
+import type { RenderBackendConfig, RenderSession } from './type/type-d-z.ts'
 
 export type Json2VideoTestRuntime = RenderSession;
 

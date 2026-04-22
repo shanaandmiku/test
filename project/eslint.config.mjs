@@ -28,6 +28,7 @@ export default defineConfig(
   {
     files: ["src/**/*.{js,mjs,cjs,jsx,ts,mts,tsx,vue}"],
     rules: {
+      quotes: ["error", "single", { avoidEscape: true }],
       semi: ["error", "never"],
     },
   },
