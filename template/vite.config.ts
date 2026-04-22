@@ -7,15 +7,19 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        'my-lib': resolve(import.meta.dirname, 'testtemplate1/index.ts'),
+        testtemplate1: resolve(
+          import.meta.dirname,
+          'src/base/testtemplate1/index.ts',
+        ),
       },
-      name: 'MyLib',
+      name: 'test',
     },
     rolldownOptions: {
       // 确保外部化处理那些
       // 你不想打包进库的依赖
       external: [],
       output: {
+        cleanDir: true,
         dir: resolve(import.meta.dirname, '../workdirectory/template'),
       },
     },
