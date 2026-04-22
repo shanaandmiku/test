@@ -1,8 +1,6 @@
 import js from '@eslint/js'
 import { defineConfig } from 'eslint/config'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
-import pluginVue from 'eslint-plugin-vue'
-import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig(
@@ -11,13 +9,16 @@ export default defineConfig(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  ...pluginVue.configs['flat/recommended'],
   {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,tsx,vue}'],
+    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,tsx}'],
     languageOptions: {
-      globals: globals.browser,
       parserOptions: {
         parser: tseslint.parser,
+      },
+      globals: {
+        // 库源码默认不注入 browser 全局变量。
+        // 如果后面确实需要少量约定好的全局变量，在这里显式补充。
+        // __TEMPLATE_VERSION__: 'readonly',
       },
     },
     rules: {
@@ -26,7 +27,7 @@ export default defineConfig(
   },
   eslintConfigPrettier,
   {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,tsx,vue}'],
+    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,tsx}'],
     rules: {
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'never'],
