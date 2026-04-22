@@ -1,5 +1,5 @@
 const plugin = {
-  name: 'base-testtemplate1',
+  name: 'base-testtemplate2',
 }
 
 export default plugin

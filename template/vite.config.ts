@@ -30,9 +30,14 @@ function createTemplateEntries() {
 export default defineConfig({
   plugins: [],
   build: {
+    minify: false,
+    cssMinify: false,
+    target: 'esnext',
+    sourcemap: 'inline',
     lib: {
       entry: createTemplateEntries(),
-      name: 'test',
+      formats: ['es'],
+      fileName: (_format, entryName) => `${entryName}.js`,
     },
     rolldownOptions: {
       // 确保外部化处理那些
