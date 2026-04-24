@@ -3,8 +3,11 @@
   "type": "object",
   "properties": {
     "$schema": "string",
-    "id": {
+    "projectId": {
       "type": "integer"
+    },
+    "templateName": {
+      "type": "string"
     },
     "name": {
       "type": "string",
@@ -20,7 +23,8 @@
     }
   },
   "required": [
-    "id",
+    "projectId",
+    "templateName",
     "name",
     "status"
   ],

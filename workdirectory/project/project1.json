@@ -1,6 +1,7 @@
 {
   "$schema": "./test.json",
-  "id": 0,
-  "name": "active",
-  "status": "active"
+  "projectId": 1,
+  "name": "test",
+  "status": "inactive",
+  "templateName": "base-testtemplate1.js"
 }

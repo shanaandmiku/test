@@ -1,10 +1,7 @@
-import {
-  createTemplatePluginId,
-  type TemplatePluginDefinition,
-} from '@chartclip/shared'
+import type { TemplatePluginContext } from '../../type.ts'
 
-const plugin: TemplatePluginDefinition = {
-  name: createTemplatePluginId('base', 'testtemplate1'),
+export default function createPlugin(ctx: TemplatePluginContext) {
+  return {
+    name: ctx.shared.createTemplatePluginId('base', 'testtemplate1'),
+  }
 }
-
-export default plugin

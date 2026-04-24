@@ -2,14 +2,22 @@ import { z } from 'zod'
 import { runtimeConfig } from '../config/runtime-config.ts'
 import { getTemplateById } from '../template'
 import type { AnyTemplateDefinition } from '../template/template-definition.ts'
-import type { Json2VideoRuntimeConfig } from '../type/type-a-b.ts'
+import { type Json2VideoRuntimeConfig } from '../type/type-a-b.ts'
 import type { ProjectSource } from '../type/type-a-z.ts'
 import { readFile } from '../utils/file-util.ts'
 
-// 数据层最终输出
+export const DataSourceSchema = z
+  .object({
+    projectId: z.number(),
+    templateId: z.number(),
+  })
+  .catchall(z.unknown())
+
+type DataSourceType = z.infer<typeof DataSourceSchema>
+
 export type DataLayerResult = {
   config: Json2VideoRuntimeConfig
-  dataSource: unknown
+  dataSource: DataSourceType
   template: AnyTemplateDefinition
 }
 
@@ -63,10 +71,33 @@ export const normalizeData2 = async (
     ['project'],
     `${projectId}.json`,
   )
-  console.log('file', fileText)
-  return {
-    fileText: fileText,
+  const project = JSON.parse(fileText)
+
+  const { templateName } = project
+  const templateText = await readFile(workspaceRef, ['template'], templateName)
+  debugger
+  console.log(templateText)
+  const blob = new Blob([templateText], { type: 'text/javascript' })
+  const url = URL.createObjectURL(blob)
+
+  let template = null
+  try {
+    const mod = await import(url)
+    const createPlugin = mod.default
+    if (typeof createPlugin === 'function') {
+      template = createPlugin(runtimeConfig)
+    }
+  } finally {
+    URL.revokeObjectURL(url)
   }
+  if (!template) {
+    throw new Error(`未找到模板: ${templateName}`)
+  }
+
+  return {
+    dataSource: project,
+  }
+
   const projectSource = projectSourceSchema.parse(origInfo) as ProjectSource
 
   return {

@@ -1,5 +1,7 @@
-const plugin = {
-  name: 'base-testtemplate2',
-}
+import type { TemplatePluginContext } from '../../type.ts'
 
-export default plugin
+export default function createPlugin(ctx: TemplatePluginContext) {
+  return {
+    name: ctx.shared.createTemplatePluginId('base', 'testtemplate2'),
+  }
+}
