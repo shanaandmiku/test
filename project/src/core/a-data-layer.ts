@@ -1,15 +1,16 @@
 import { z } from 'zod'
-import { runtimeConfig } from '../config/runtime-config.ts'
-import { getTemplateById } from '../template'
-import type { AnyTemplateDefinition } from '../template/template-definition.ts'
 import { type Json2VideoRuntimeConfig } from '../type/type-a-b.ts'
-import type { ProjectSource } from '../type/type-a-z.ts'
 import { readFile } from '../utils/file-util.ts'
+import type {
+  TemplatePluginContext,
+  TemplatePluginResult,
+} from 'template/src/type.ts'
+import * as shared from '@chartclip/shared'
 
 export const DataSourceSchema = z
   .object({
     projectId: z.number(),
-    templateId: z.number(),
+    templateName: z.string(),
   })
   .catchall(z.unknown())
 
@@ -18,49 +19,15 @@ type DataSourceType = z.infer<typeof DataSourceSchema>
 export type DataLayerResult = {
   config: Json2VideoRuntimeConfig
   dataSource: DataSourceType
-  template: AnyTemplateDefinition
-}
-
-const projectSourceSchema = z.object({
-  configId: z.string(),
-  dataSource: z.unknown(),
-  templateId: z.string(),
-})
-
-const runtimeConfigMap: Record<string, Json2VideoRuntimeConfig> = {
-  'default-runtime-config': runtimeConfig,
-}
-
-const getRuntimeConfigById = (configId: string): Json2VideoRuntimeConfig => {
-  const runtimeConfig = runtimeConfigMap[configId]
-
-  if (!runtimeConfig) {
-    throw new Error(`未找到运行配置: ${configId}`)
-  }
-
-  return runtimeConfig
-}
-
-// 根据项目输入解析运行时所需的数据、模板和配置
-export const normalizeData = (projectSourceInput: unknown): DataLayerResult => {
-  const projectSource = projectSourceSchema.parse(
-    projectSourceInput,
-  ) as ProjectSource
-
-  return {
-    config: getRuntimeConfigById(projectSource.configId),
-    dataSource: projectSource.dataSource,
-    template: getTemplateById(projectSource.templateId),
-  }
+  template: TemplatePluginResult
 }
 
 export interface IOrigInfo {
   runtimeConfig: Json2VideoRuntimeConfig
   projectId: string
 }
-export interface IDataLayerResult {}
 
-export const normalizeData2 = async (
+export const normalizeData = async (
   origInfo: IOrigInfo,
   workspaceRef: FileSystemDirectoryHandle,
 ): Promise<DataLayerResult> => {
@@ -73,19 +40,23 @@ export const normalizeData2 = async (
   )
   const project = JSON.parse(fileText)
 
-  const { templateName } = project
+  const dataSource = DataSourceSchema.parse(project)
+
+  const { templateName } = dataSource
   const templateText = await readFile(workspaceRef, ['template'], templateName)
-  debugger
-  console.log(templateText)
+
   const blob = new Blob([templateText], { type: 'text/javascript' })
   const url = URL.createObjectURL(blob)
 
-  let template = null
+  let template: TemplatePluginResult | null = null
   try {
     const mod = await import(url)
     const createPlugin = mod.default
     if (typeof createPlugin === 'function') {
-      template = createPlugin(runtimeConfig)
+      const createPluginContext: TemplatePluginContext = {
+        shared: shared,
+      }
+      template = createPlugin(createPluginContext)
     }
   } finally {
     URL.revokeObjectURL(url)
@@ -94,15 +65,11 @@ export const normalizeData2 = async (
     throw new Error(`未找到模板: ${templateName}`)
   }
 
-  return {
-    dataSource: project,
+  const rtn: DataLayerResult = {
+    config: runtimeConfig,
+    dataSource: dataSource,
+    template,
   }
 
-  const projectSource = projectSourceSchema.parse(origInfo) as ProjectSource
-
-  return {
-    config: getRuntimeConfigById(projectSource.configId),
-    dataSource: projectSource.dataSource,
-    template: getTemplateById(projectSource.templateId),
-  }
+  return rtn
 }

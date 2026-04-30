@@ -10,9 +10,9 @@ import {
 import { runtimeConfig } from '../config/runtime-config.ts'
 import JSONEditor, { JSONEditorMode } from 'jsoneditor'
 import {
-  type IDataLayerResult,
+  type DataLayerResult,
   type IOrigInfo,
-  normalizeData2,
+  normalizeData,
 } from '../core/a-data-layer.ts'
 import { initWorkSpace } from '../core/utils/workspace.ts'
 
@@ -100,12 +100,12 @@ const getOrigInfo = (): IOrigInfo | null => {
   }
 }
 
-const normalized = ref<IDataLayerResult | null>(null)
-const getNormalized = async (): Promise<IDataLayerResult | null> => {
+const normalized = ref<DataLayerResult | null>(null)
+const getNormalized = async (): Promise<DataLayerResult | null> => {
   if (!origInfo.value || !workspaceRef.value) {
     return null
   }
-  return normalizeData2(
+  return normalizeData(
     {
       ...origInfo.value,
     },
